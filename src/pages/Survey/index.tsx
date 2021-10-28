@@ -5,10 +5,7 @@ import styled from 'styled-components'
 import colors from '../../utils/style/colors'
 import { Loader } from '../../utils/style/atoms'
 
-type surveyState = {
-  surveyData:surveyState[];
-  setSurveyData: React.Dispatch<React.SetStateAction<surveyState>>;
-}
+
 type dataLoadingState = {
   isDataLoading: boolean;
   setDataLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +13,11 @@ type dataLoadingState = {
 type errorState = {
   error: boolean;
   setError: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+type surveyState = {
+  surveyData:surveyState[];
+  setSurveyData: React.Dispatch<React.SetStateAction<surveyState>>;
 }
 type QuizParams = {
   questionNumber: any;
@@ -25,8 +27,10 @@ function Survey(): JSX.Element {
   const questionNumberInt:number = parseInt(questionNumber)
   const prevQuestionNumber:number = questionNumberInt === 1 ? 1 : questionNumberInt - 1
   const nextQuestionNumber:number = questionNumberInt + 1
+
   const defaultServeyData:surveyState[] = [];
   const [surveyData, setSurveyData]: [surveyState[], (surveyData: surveyState[]) => void] = useState(defaultServeyData);
+
   const [isDataLoading, setDataLoading] : [boolean, (isDataLoading: boolean) => void] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false)
 
