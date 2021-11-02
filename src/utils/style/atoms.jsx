@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import colors from './colors'
 import styled, { keyframes } from 'styled-components'
 
+
 const rotate = keyframes`
     from {
         transform: rotate(0deg);
@@ -21,6 +22,7 @@ export const Loader = styled.div`
     height: 0;
     width: 0;
 `
+
 
 export const StyledLink = styled(Link)`
   padding: 10px 15px;

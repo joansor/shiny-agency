@@ -1,5 +1,4 @@
-import { useContext } from 'react'
-import { ThemeContext } from '../../utils/context'
+import { useTheme } from '../../utils/hooks'
 import styled from 'styled-components'
 import colors from '../../utils/style/colors'
 
@@ -18,9 +17,8 @@ const NightModeButton = styled.button`
   color: ${colors.secondary};
 `
 
-
 function Footer() {
-  const { theme, toggleTheme }:any = useContext(ThemeContext)
+  const { toggleTheme, theme } = useTheme()
 
   return (
     <FooterContainer>

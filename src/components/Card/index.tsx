@@ -1,35 +1,18 @@
 import styled from 'styled-components'
 import colors from '../../utils/style/colors'
 import DefaultPicture from '../../assets/profile.png'
-
-interface CardProps {
-  label?: Required<string>
-  title?: Required<string>
-  picture?: Required<string>
-}
-
-function Card({ label="label", title="title", picture= DefaultPicture }: CardProps) {
-
-
-  return (
-    <CardWrapper>
-      <CardLabel>{label}</CardLabel>
-      <CardImage src={picture} alt="freelance" />
-      <CardTitle>{title}</CardTitle>
-    </CardWrapper>
-  )
-}
+import { useTheme } from '../../utils/hooks'
 
 
 const CardLabel = styled.span`
-  color: #5843e4;
+  color: ${({ theme }) => (theme === 'light' ? colors.primary : '#ffffff')};
   font-size: 22px;
   font-weight: normal;
   padding-left: 15px;
 `
 
 const CardTitle = styled.span`
-  color: black;
+  color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
   font-size: 22px;
   font-weight: normal;
   align-self: center;
@@ -47,15 +30,38 @@ const CardWrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   padding: 15px;
-  background-color: ${colors.backgroundLight};
+  background-color: ${({ theme }) =>
+    theme === 'light' ? colors.backgroundLight : colors.backgroundDark};
   border-radius: 30px;
   width: 300px;
   height: 300px;
-  transition: 200ms;
   &:hover {
     cursor: pointer;
-    box-shadow: 2px 2px 10px #e2e3e9;
   }
 `
+type CardProps = {
+  label?: Required<string>
+  title?: Required<string>
+  picture?: Required<string>
+}
+
+
+Card.defaultProps = {
+  label: '',
+  title: '',
+  picture: DefaultPicture,
+}
+function Card({ label, title, picture }: CardProps) {
+  const { theme } = useTheme()
+
+  return (
+    <CardWrapper theme={theme}>
+      <CardLabel theme={theme}>{label}</CardLabel>
+      <CardImage src={picture} alt="freelance" />
+      <CardTitle theme={theme}>{title}</CardTitle>
+    </CardWrapper>
+  )
+}
+
 
 export default Card

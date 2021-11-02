@@ -1,48 +1,42 @@
 import { Link } from 'react-router-dom'
-import logo from '../../assets/light-logo.png'
 import styled from 'styled-components'
+import { StyledLink } from '../../utils/style/atoms'
+import LightLogo from '../../assets/light-logo.png'
+import DarkLogo from '../../assets/dark-logo.png'
+import { useTheme } from '../../utils/hooks'
 
+const HomeLogo = styled.img`
+  height: 70px;
+`
 
-function Header():JSX.Element {
+const NavContainer = styled.nav`
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+function Header() {
+  const { theme } = useTheme()
+
   return (
-    <nav>
-      <Logo src={logo} alt="logo"/>
-      <ContainerLink>
-      <StyledLink className='home' to="/">Accueil</StyledLink>
-      <StyledLink to="/survey/1">Questionnaire</StyledLink>
-      <StyledLink className='freelances' to="/freelances">Freelance</StyledLink>
-      </ContainerLink>
-    </nav>
+    <NavContainer>
+      <Link to="/">
+        <HomeLogo src={theme === 'light' ? DarkLogo : LightLogo} />
+      </Link>
+      <div>
+        <StyledLink theme={theme} to="/">
+          Accueil
+        </StyledLink>
+        <StyledLink theme={theme} to="/freelances">
+          Profils
+        </StyledLink>
+        <StyledLink to="/survey/1">
+          Faire le test
+        </StyledLink>
+      </div>
+    </NavContainer>
   )
 }
-const Logo = styled.img`
-position: absolute;
-width: 186.34px;
-height: 70px;
-left: 26px;
-top: 51px;
-`
-const ContainerLink = styled.div`
-position: absolute;
-width: 80px;
-height: 22px;
-left: 991px;
-top: 75px;
-`
-const StyledLink = styled(Link)`
-font-family: Trebuchet MS;
-font-style: normal;
-font-weight: bold;
-font-size: 20px;
-line-height: 23px;
-text-decoration:none;
-color: #FFFFFF;
-&.home{
-  margin-right: 35px; 
-}
-&.freelances{
-  margin-left: 24px; 
-}
-`
 
 export default Header
