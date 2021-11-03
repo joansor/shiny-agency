@@ -8,7 +8,6 @@ const HomeWrapper = styled.div`
   display: flex;
   justify-content: center;
 `
-
 const HomerContainer = styled.div`
   margin: 30px;
   background-color: ${({ theme }) =>
@@ -18,7 +17,6 @@ const HomerContainer = styled.div`
   flex-direction: row;
   max-width: 1200px;
 `
-
 const LeftCol = styled.div`
   display: flex;
   flex-direction: column;
@@ -28,18 +26,15 @@ const LeftCol = styled.div`
     max-width: 250px;
   }
 `
-
 const StyledTitle = styled.h2`
   padding-bottom: 30px;
   max-width: 280px;
   line-height: 50px;
   color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
 `
-
 const Illustration = styled.img`
   flex: 1;
 `
-
 function Home() {
   const { theme } = useTheme()
 
@@ -55,7 +50,7 @@ function Home() {
             Faire le test
           </StyledLink>
         </LeftCol>
-        <Illustration src={HomeIllustration} />
+        <Illustration src={HomeIllustration}/>
       </HomerContainer>
     </HomeWrapper>
   )

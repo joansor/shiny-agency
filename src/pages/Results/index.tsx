@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { SurveyContext } from '../../utils/context'
-import styled from 'styled-components'
+import styled, { StyledComponent } from 'styled-components'
 import colors from '../../utils/style/colors'
 import { useFetch, useTheme } from '../../utils/hooks'
 import { StyledLink, Loader } from '../../utils/style/atoms'
@@ -14,7 +14,6 @@ const ResultsContainer = styled.div`
   background-color: ${({ theme }) =>
     theme === 'light' ? colors.backgroundLight : colors.backgroundDark};
 `
-
 const ResultsTitle = styled.h2`
   color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
   font-weight: bold;
@@ -25,17 +24,14 @@ const ResultsTitle = styled.h2`
     padding-left: 10px;
   }
 `
-
 const DescriptionWrapper = styled.div`
   padding: 60px;
 `
-
-const JobTitle = styled.span`
+const JobTitle: StyledComponent<"span", any, {}, never> = styled.span`
   color: ${({ theme }) =>
     theme === 'light' ? colors.primary : colors.backgroundLight};
   text-transform: capitalize;
 `
-
 const JobDescription = styled.div`
   font-size: 18px;
   & > p {
@@ -46,38 +42,47 @@ const JobDescription = styled.div`
     font-size: 20px;
   }
 `
-
 const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
 `
 
-function formatFetchParams(answers:any) {
-    console.log('answers : '+answers)
+function formatFetchParams(answers:any):string {
   const answerNumbers = Object.keys(answers)
-  console.log('answerNumbers : '+answerNumbers)
+  return answerNumbers.reduce((previousParams:string, answerNumber:any, index:number) => {
+    const isFirstParam:boolean = index === 0
+    const separator:string = isFirstParam ? '' : '&'
+    return `${previousParams}${separator}a${answerNumber}=${answers[answerNumber]}`
+  }, '')
+}
 
-  return answerNumbers.reduce((previousParams, answerNumber, index) => {
-    const isFirstParam = index === 0
+export function formatJobList(title:string, listLength:number, index:number) {
+  if (index === listLength - 1) {
+      return title
+  }
+  return `${title},`
+}
+
+export function formatQueryParams(answers:string):string {
+  const answerNumbers:string[] = Object.keys(answers)
+  return answerNumbers.reduce((previousParams:string, answerNumber:any, index:number) => {
+    const isFirstParam:boolean = index === 0
     const separator = isFirstParam ? '' : '&'
     return `${previousParams}${separator}a${answerNumber}=${answers[answerNumber]}`
   }, '')
 }
 
-
 function Results():JSX.Element {
+
   const { theme } = useTheme()
   const { answers } = useContext(SurveyContext)
   const fetchParams = formatFetchParams(answers)
-
   const { data, isLoading, error } = useFetch(
     `http://localhost:8000/results?${fetchParams}`
   )
-
   if (error) {
     return <span>Il y a un problème</span>
   }
-
   const resultsData:any[] = data?.resultsData
 
   return isLoading ? (
@@ -94,8 +99,9 @@ function Results():JSX.Element {
               key={`result-title-${index}-${result.title}`}
               theme={theme}
             >
-              {result.title}
-              {index === resultsData.length - 1 ? '' : ','}
+              {/* {result.title}
+              {index === resultsData.length - 1 ? '' : ','} */}
+              {formatJobList(result.title, resultsData.length, index)}
             </JobTitle>
           ))}
       </ResultsTitle>
